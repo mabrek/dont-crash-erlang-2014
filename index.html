@@ -38,6 +38,81 @@
       <h1>Erlang: Don't Let Your Production Crash</h1>
     </section>
 
+    <section class="slide">
+        <h2>max restart intensity</h2>
+    </section>
+
+    <section class="slide">
+        <h2>temporary (boot file setting) applications stop and won't start again</h2>
+    </section>
+
+    <section class="slide">
+        <h2>timeout infinity</h2>
+        get stacktraces
+    </section>
+
+    <section class="slide">
+        <h2>gen_server calls itself</h2>
+        get stacktraces
+    </section>
+
+    <section class="slide">
+        <h2>cast to OOM</h2>
+    </section>
+
+    <section class="slide">
+        <h2>send deep list of reused lists to other pid</h2>
+    </section>
+
+    <section class="slide">
+        <h2>send a lot of binaries to idle process</h2>
+    </section>
+
+    <section class="slide">
+        <h2>stick a lot of small subbinaries of large binaries into ETS or anywhere</h2>
+    </section>
+
+    <section class="slide">
+        <h2>use error_logger</h2>
+    </section>
+
+    <section class="slide">
+        <h2>erlang limits</h2>
+ets:new until hitting limit
+    ports number limit
+    process number limit
+    </section>
+
+    <section class="slide">
+        <h2>cpu 100% -> random timeouts</h2>
+    </section>
+
+    <section class="slide">
+        <h2>system limits</h2>
+        swap vs. OOM
+        ulimit -n
+        time wait
+        ephemeral ports limit
+    </section>
+
+    <section class="slide">
+        <h2>events caught by riak_sysmon</h2>
+        long gc
+        distribution buffer full
+    </section>
+
+    <section class="slide">
+        <h2></h2>
+    </section>
+
+    <section class="slide">
+        <h2>Q&amp;A</h2>
+        <p>Anton Lebedevich</p>
+        <p>mabrek@gmail.com</p>
+        <p><a target="_blank" href="https://twitter.com/widdoc">twitter.com/widdoc</a>
+        <p><a target="_blank" href="https://github.com/mabrek">github.com/mabrek</a></p>
+    </section>
+
     <!-- End slides. -->
 
     <!-- Begin extension snippets. Add or remove as needed. -->
