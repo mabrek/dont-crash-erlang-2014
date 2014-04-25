@@ -40,6 +40,9 @@
 
     <section class="slide">
         <h2>max restart intensity</h2>
+        symptom: erlang shuts down
+        diagnoze: TODO 'reached max restart intensity' in logs
+        fix: supervisor2 from rabbitmq, or don't let it crash so often
     </section>
 
     <section class="slide">
@@ -48,12 +51,17 @@
 
     <section class="slide">
         <h2>timeout infinity</h2>
-        get stacktraces
+        symptoms: application hangs
+        diagnoze: get stacktraces
+        fix: grep -n infinity src/*.erl
+        (trollface: and replace by default 5 seconds)
     </section>
 
     <section class="slide">
         <h2>gen_server calls itself</h2>
-        get stacktraces
+        symptoms: application hangs
+        diagnoze: get stacktraces
+        fix: 
     </section>
 
     <section class="slide">
