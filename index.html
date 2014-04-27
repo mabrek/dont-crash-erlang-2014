@@ -39,6 +39,29 @@
     </section>
 
     <section class="slide">
+      <h2>Easy way to crash BEAM</h2>
+<pre>
+1> F = fun() ->
+1>     L = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+1>     L2 = [L, L, L, L, L, L, L, L, L, L],
+1>     L3 = [L2, L2, L2, L2, L2, L2, L2, L2, L2, L2],
+1>     L4 = [L3, L3, L3, L3, L3, L3, L3, L3, L3, L3],
+1>     L5 = [L4, L4, L4, L4, L4, L4, L4, L4, L4, L4],
+1>     L6 = [L5, L5, L5, L5, L5, L5, L5, L5, L5, L5],
+1>     L7 = [L6, L6, L6, L6, L6, L6, L6, L6, L6, L6],
+1>     L8 = [L7, L7, L7, L7, L7, L7, L7, L7, L7, L7],
+1>     L9 = [L8, L8, L8, L8, L8, L8, L8, L8, L8, L8],
+1>     pid(0,0,0) ! L9,
+1>     ok
+1> end.
+#Fun&lt;erl_eval.20.21881191&gt;
+2> F().
+HUGE size (2222222220)
+Aborted
+</pre>
+    </section>
+
+    <section class="slide">
         <h2>max restart intensity</h2>
         symptom: erlang shuts down
         diagnoze: TODO 'reached max restart intensity' in logs
@@ -81,14 +104,16 @@
     </section>
 
     <section class="slide">
-        <h2>use error_logger</h2>
+        <h2>error_logger</h2>
     </section>
 
     <section class="slide">
-        <h2>erlang limits</h2>
-ets:new until hitting limit
-    ports number limit
-    process number limit
+        <h2>erlang limits (man erl)</h2>
+        ets tables
+        ports
+        processes
+        atoms
+        distribution buffer busy limit
     </section>
 
     <section class="slide">
