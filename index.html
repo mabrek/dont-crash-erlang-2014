@@ -64,9 +64,11 @@ Aborted
     <section class="slide">
         <h2>reached_max_restart_intensity</h2>
         <p>Erlang shuts down with 'reached_max_restart_intensity' in logs.</p>
-        <p>Ways to fix:
-          supervisor2 from rabbitmq, or don't let it crash so often</p>
-        </p>
+        <ul>
+          <li>don't copy-paste <code>MaxR</code> and <code>MaxT</code> from templates</li>
+          <li>supervisor2 from rabbitmq</li>
+          <li>or don't let it crash so often</li>
+        </ul>
     </section>
 
     <section class="slide">
@@ -75,33 +77,52 @@ Aborted
 
     <section class="slide">
         <h2>timeout infinity</h2>
-        symptoms: application hangs
-        diagnoze: get stacktraces
-        fix: grep -n infinity src/*.erl
-        (trollface: and replace by default 5 seconds)
+        <p>application doesn't respond with 0% cpu usage</p>
+        <p>get stacktraces:</p>
+        <pre>file:write_file("/tmp/procs.txt",erlang:system_info(procs)).</pre>
+        <p>find them all: <code>grep -n infinity src/*.erl</code></p>
+        <p>trollface: and replace by default 5 seconds</p>
     </section>
 
     <section class="slide">
         <h2>gen_server calls itself</h2>
-        symptoms: application hangs
-        diagnoze: get stacktraces
-        fix: 
+        <p>application doesn't respond, 0% cpu usage, (optional) timeout failures for internal calls</p>
+        <p>read logs, get stacktraces:</p>
+        <pre>file:write_file("/tmp/procs.txt",erlang:system_info(procs)).</pre>
+        <p>and fix the logic</p>
     </section>
 
     <section class="slide">
-        <h2>cast to OOM</h2>
-    </section>
-
-    <section class="slide">
-        <h2>send a lot of binaries to idle process</h2>
-    </section>
-
-    <section class="slide">
-        <h2>stick a lot of small subbinaries of large binaries into ETS or anywhere</h2>
+        <h2>cast an OOM</h2>
+        <pre>eheap_alloc: Cannot allocate 100500XXX bytes of memory (of type "old_heap")</pre>
+        <ul>
+          <li>watch your queues</li>
+          <li><code>gen_server:call</code> instead of <code>cast</code></li>
+          <li>flow control</li>
+        </ul>
     </section>
 
     <section class="slide">
         <h2>error_logger</h2>
+        <ul>
+          <li>same as above</li>
+          <li>switch to lager</li>
+          <li>learn to use dbg instead of debug logging</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>send a lot of binaries to an idle process</h2>
+        <p>OOM again</p>
+        <p>simple one-liner:</p>
+        <pre>
+[{M, P, process_info(P, [registered_name, initial_call, current_function, dictionary]), B} || {P, M, B} <- lists:sublist(lists:reverse(lists:keysort(2, [case process_info(P, binary) of {_, Bins} -> SortedBins = lists:usort(Bins), {_, Sizes, _} = lists:unzip3(SortedBins), {P, lists:sum(Sizes), SortedBins}; _ -> {P, 0, []} end || P <- processes()])), 5)].
+</pre>
+        <a href="https://blog.heroku.com/archives/2013/11/7/logplex-down-the-rabbit-hole">blog.heroku.com/archives/2013/11/7/logplex-down-the-rabbit-hole</a>
+    </section>
+
+    <section class="slide">
+        <h2>a lot of small subbinaries of large binaries</h2>
     </section>
 
     <section class="slide">
