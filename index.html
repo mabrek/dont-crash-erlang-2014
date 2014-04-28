@@ -73,10 +73,6 @@ Aborted
     </section>
 
     <section class="slide">
-        <h2>TODO temporary (boot file setting) applications stop and won't start again</h2>
-    </section>
-
-    <section class="slide">
         <h2>timeout infinity</h2>
         <p>application doesn't respond with 0% cpu usage</p>
         <p>get stacktraces:</p>
@@ -163,26 +159,35 @@ Aborted
     </section>
 
     <section class="slide">
-        <h2>events caught by riak_sysmon</h2>
-        long gc
-        distribution buffer full
+      <h2>events caught by riak_sysmon</h2>
+      <ul>
+        <li>large heap</li>
+        <li>long gc</li>
+        <li>busy ports</li>
+        <li>distribution buffer full</li>
+      </ul>
     </section>
 
     <section class="slide">
-        <h2>fprof all the things</h2>
+      <h2>fprof all the things</h2>
+      <p>don't do that in production because overhead is too large</p>
+      <p>apply it only to handful of processes</p>
     </section>
 
     <section class="slide">
-        <h2>-heart + typo in config file</h2>
+      <h2>-heart + typo in config file</h2>
+      <p>leads to endless race of 2 processes restarting each other</p>
+      <p><code>killall -9 heart beam.smp</code> until it hits both of them</p>
     </section>
 
     <section class="slide">
-        <h2>things to check</h2>
-        error logger inbox from crash_dump
-        erlang stdout
-        dmesg
-        syslog
-        use vmstats
+      <h2>non-obvious things to check</h2>
+      <ul>
+        <li>error logger inbox from crash dump</li>
+        <li>erlang stdout</li>
+        <li>dmesg</li>
+        <li>use <a href="https://github.com/lpgauth/vmstats/">github.com/lpgauth/vmstats/</a></li>
+      </ul>
     </section>
 
     <section class="slide">
