@@ -68,6 +68,7 @@ Aborted
           <li>don't copy-paste <code>MaxR</code> and <code>MaxT</code> from templates</li>
           <li>supervisor2 from rabbitmq</li>
           <li>or don't let it crash so often</li>
+          <li><code>erl -heart</code> but see below about typo in config file</li>
         </ul>
     </section>
 
@@ -95,6 +96,8 @@ Aborted
     <section class="slide">
         <h2>cast an OOM</h2>
         <pre>eheap_alloc: Cannot allocate 100500XXX bytes of memory (of type "old_heap")</pre>
+        <p>you can make it even worse by undocumented <code>erl +snsp</code></p>
+        <p>unoptimized selective receive contributes too</p>
         <ul>
           <li>watch your queues</li>
           <li><code>gen_server:call</code> instead of <code>cast</code></li>
@@ -115,36 +118,48 @@ Aborted
         <h2>send a lot of binaries to an idle process</h2>
         <p>OOM again</p>
         <p>simple one-liner:</p>
-        <pre>
-[{M, P, process_info(P, [registered_name, initial_call, current_function, dictionary]), B} || {P, M, B} <- lists:sublist(lists:reverse(lists:keysort(2, [case process_info(P, binary) of {_, Bins} -> SortedBins = lists:usort(Bins), {_, Sizes, _} = lists:unzip3(SortedBins), {P, lists:sum(Sizes), SortedBins}; _ -> {P, 0, []} end || P <- processes()])), 5)].
-</pre>
+        <pre>[{M, P, process_info(P, [registered_name, initial_call, current_function, dictionary]), B} || {P, M, B} <- lists:sublist(lists:reverse(lists:keysort(2, [case process_info(P, binary) of {_, Bins} -> SortedBins = lists:usort(Bins), {_, Sizes, _} = lists:unzip3(SortedBins), {P, lists:sum(Sizes), SortedBins}; _ -> {P, 0, []} end || P <- processes()])), 5)].</pre>
         <a href="https://blog.heroku.com/archives/2013/11/7/logplex-down-the-rabbit-hole">blog.heroku.com/archives/2013/11/7/logplex-down-the-rabbit-hole</a>
     </section>
 
     <section class="slide">
-        <h2>a lot of small subbinaries of large binaries</h2>
+      <h2>a lot of small subbinaries of large binaries</h2>
+      <p>OOM</p>
+      <p>same one-liner</p>
+      <p>apply <code>binary:copy/1</code> carefully</p>
     </section>
 
     <section class="slide">
-        <h2>erlang limits (man erl)</h2>
-        ets tables
-        ports
-        processes
-        atoms
-        distribution buffer busy limit
+      <h2>binaries in ETS</h2>
+      <p>OOM</p>
+      <p>invisible for <code>process_info(_, binary)</code></p>
+      <p>compare <code>erlang:memory(binary)</code> with sum of all binaries held by processes</p>
     </section>
 
     <section class="slide">
-        <h2>cpu 100% -> random timeouts</h2>
-        check run queue length
+      <h2>erlang limits (man erl)</h2>
+      <ul>
+        <li>ports</li>
+        <li>processes</li>
+        <li>ets tables</li>
+        <li>distribution buffer busy limit <code>+zdbbl</code></li>
+      </ul>
     </section>
 
     <section class="slide">
-        <h2>system limits</h2>
-        swap vs. OOM
-        ulimit -n
-        time wait
-        ephemeral ports limit (can't use remote shell because it opens connection)
+      <h2>cpu usage 100%</h2>
+      <p>it migth not be that bad but if you see random timeouts -&gt;</p>
+      <p>check run queue length</p>
+    </section>
+
+    <section class="slide">
+      <h2>system limits</h2>
+      <ul>
+        <li>swap vs. OOM</li>
+        <li>ulimit -n</li>
+        <li>time wait</li>
+        <li>ephemeral ports limit</li>
+      </ul>
     </section>
 
     <section class="slide">
@@ -167,6 +182,7 @@ Aborted
         erlang stdout
         dmesg
         syslog
+        use vmstats
     </section>
 
     <section class="slide">
