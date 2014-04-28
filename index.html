@@ -117,7 +117,7 @@ Aborted
         <p>OOM again</p>
         <p>simple one-liner:</p>
         <pre>[{M, P, process_info(P, [registered_name, initial_call, current_function, dictionary]), B} || {P, M, B} <- lists:sublist(lists:reverse(lists:keysort(2, [case process_info(P, binary) of {_, Bins} -> SortedBins = lists:usort(Bins), {_, Sizes, _} = lists:unzip3(SortedBins), {P, lists:sum(Sizes), SortedBins}; _ -> {P, 0, []} end || P <- processes()])), 5)].</pre>
-        <a href="https://blog.heroku.com/archives/2013/11/7/logplex-down-the-rabbit-hole">blog.heroku.com/archives/2013/11/7/logplex-down-the-rabbit-hole</a>
+        <p>read <a href="https://blog.heroku.com/archives/2013/11/7/logplex-down-the-rabbit-hole">blog.heroku.com/archives/2013/11/7/logplex-down-the-rabbit-hole</a></p>
     </section>
 
     <section class="slide">
@@ -185,7 +185,7 @@ Aborted
     <section class="slide">
       <h2>non-obvious things to check</h2>
       <ul>
-        <li>error logger inbox from crash dump</li>
+        <li>error_logger inbox from crash dump</li>
         <li>erlang stdout</li>
         <li>dmesg</li>
         <li>use <a href="https://github.com/lpgauth/vmstats/">github.com/lpgauth/vmstats/</a></li>
