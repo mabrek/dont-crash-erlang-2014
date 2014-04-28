@@ -178,14 +178,14 @@ Aborted
 
     <section class="slide">
       <h2>-heart + typo in config file</h2>
-      <p>leads to endless race of 2 processes restarting each other</p>
+      <p>leads to an endless race of 2 processes restarting each other</p>
       <p><code>killall -9 heart beam.smp</code> until it hits both of them</p>
     </section>
 
     <section class="slide">
       <h2>non-obvious things to check</h2>
       <ul>
-        <li>error_logger inbox from crash dump</li>
+        <li>error_logger inbox from crash dump (there might be some messages)</li>
         <li>erlang stdout</li>
         <li>dmesg</li>
         <li>use <a href="https://github.com/lpgauth/vmstats/">github.com/lpgauth/vmstats/</a></li>
