@@ -41,7 +41,7 @@
     </section>
 
     <section class="slide">
-      <h2>Easy way to crash BEAM</h2>
+      <h2>loss of sharing</h2>
 <pre>
 1> F = fun() ->
 1>  L  = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -100,7 +100,7 @@ Aborted
         <p>you can make it even worse by undocumented <code>erl +snsp</code></p>
         <p>or unoptimized selective receive</p>
         <ul>
-          <li>watch your queues (<code>etop</code>)</li>
+          <li>watch your queues (<code>vmstats, etop</code>)</li>
           <li><code>gen_server:call</code> instead of <code>cast</code></li>
           <li>flow control</li>
         </ul>
@@ -112,7 +112,7 @@ Aborted
           <li>same as above</li>
           <li>switch to <a href="https://github.com/basho/lager">github.com/basho/lager</a></li>
           <li>learn to use tracing via dbg or redbug from <a href="https://github.com/massemanet/eper">github.com/massemanet/eper</a> instead of debug logging</li>
-          <li>don't print to stdout</li>
+          <li>slightly related: don't print to stdout</li>
         </ul>
     </section>
 
