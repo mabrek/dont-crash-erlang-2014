@@ -100,7 +100,7 @@ Aborted
         <p>you can make it even worse by undocumented <code>erl +snsp</code></p>
         <p>or unoptimized selective receive</p>
         <ul>
-          <li>watch your queues (<code>vmstats, etop</code>)</li>
+          <li>monitor your queues (<code>vmstats, etop</code>)</li>
           <li><code>gen_server:call</code> instead of <code>cast</code></li>
           <li>flow control</li>
         </ul>
@@ -151,7 +151,7 @@ Aborted
     <section class="slide">
       <h2>cpu usage 100%</h2>
       <p>it might not be that bad but if you see random timeouts -&gt;</p>
-      <p>check run queue length</p>
+      <p>monitor run queue length (<code>vmstats</code>)</p>
     </section>
 
     <section class="slide">
