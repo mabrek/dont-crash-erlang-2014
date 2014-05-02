@@ -68,9 +68,10 @@ Aborted
         <p>Erlang shuts down with 'reached_max_restart_intensity' in logs.</p>
         <ul>
           <li>don't copy-paste <code>MaxR</code> and <code>MaxT</code> from templates</li>
-          <li>supervisor2 from rabbitmq</li>
-          <li>or don't let it crash so often</li>
+          <li><code>supervisor2</code> from rabbitmq</li>
+          <li>don't let it crash so often (use circuit breakers)</li>
           <li><code>erl -heart</code> but see below about typo in config file</li>
+          <li>don't crash or do long tasks in <code>gen_server</code> <code>init</code> callback</li>
         </ul>
     </section>
 
@@ -88,16 +89,18 @@ Aborted
         <p>application doesn't respond, 0% cpu usage, (optional) timeout failures for internal calls</p>
         <p>read logs, get stacktraces:</p>
         <pre>file:write_file("/tmp/procs.txt",erlang:system_info(procs)).</pre>
-        <p>and fix the logic</p>
+        <p>or get process inbox and current call via</p>
+        <pre>process_info(Pid)</pre>
+        <p>fix deadlock</p>
     </section>
 
     <section class="slide">
         <h2>cast an OOM</h2>
         <pre>eheap_alloc: Cannot allocate 100500XXX bytes of memory (of type "old_heap")</pre>
         <p>you can make it even worse by undocumented <code>erl +snsp</code></p>
-        <p>unoptimized selective receive contributes too</p>
+        <p>or unoptimized selective receive</p>
         <ul>
-          <li>watch your queues</li>
+          <li>watch your queues (<code>etop</code>)</li>
           <li><code>gen_server:call</code> instead of <code>cast</code></li>
           <li>flow control</li>
         </ul>
@@ -107,8 +110,9 @@ Aborted
         <h2>error_logger</h2>
         <ul>
           <li>same as above</li>
-          <li>switch to lager</li>
-          <li>learn to use dbg instead of debug logging</li>
+          <li>switch to <a href="https://github.com/basho/lager">github.com/basho/lager</a></li>
+          <li>learn to use tracing via dbg or redbug from <a href="https://github.com/massemanet/eper">github.com/massemanet/eper</a> instead of debug logging</li>
+          <li>don't print to stdout</li>
         </ul>
     </section>
 
